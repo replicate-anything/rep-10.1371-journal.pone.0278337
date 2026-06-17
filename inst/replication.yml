@@ -1,0 +1,130 @@
+paper:
+  doi: https://doi.org/10.1371/journal.pone.0278337
+  title: "Public support for global vaccine sharing in the COVID-19 pandemic: Evidence from Germany"
+  journal: PLOS ONE
+  year: 2022
+  authors: Ferdinand Geissler, Felix Hartmann, Macartan Humphreys, Heike Klüver, Johannes Giesecke
+  source_repo: https://github.com/wzb-ipi/vaccine_solidarity
+  package: rep1371journalpone0278337
+  dependencies:
+    - dplyr
+    - ggplot2
+    - estimatr
+    - bbmle
+    - egg
+    - broom
+    - modelsummary
+    - kableExtra
+
+# Registry index builder: set repo to this package's GitHub slug (not registry/papers/).
+repo: replicate-anything/rep_10.1371_journal.pone.0278337
+
+prep:
+  - id: prep_data
+    label: Build wave 4 conjoint and wave 2 survey data
+    code: prep_data
+    data: combined.csv
+    description: Rebuild analysis datasets from raw survey export (requires combined.csv).
+    artifact: inst/report/intermediate/wave4_conjoint.rds
+
+  - id: prep_data_tab_2
+    label: Reshape wave 2 conjoint tasks
+    code: prep_data_tab_2
+    data:
+      - wave2_survey
+      - vignette_labels
+    description: Long-format conjoint data for Table 2.
+
+replications:
+
+  - id: fig_1
+    type: figure
+    label: Figure 1
+    description: Distribution of support for contributions of different sizes
+    make: make_figure_1
+    format: format_figure_1
+    data: wave4_conjoint
+    artifact: inst/report/artifacts/fig_1.png
+
+  - id: fig_2
+    type: figure
+    label: Figure 2
+    description: Marginal effects of conditions
+    make: make_figure_2
+    format: format_figure_2
+    data: wave4_conjoint
+    artifact: inst/report/artifacts/fig_2.png
+
+  - id: fig_3
+    type: figure
+    label: Figure 3
+    description: Effect of video treatment on individual solidarity
+    make: make_figure_3
+    format: format_figure_3
+    data: wave2_survey
+    artifact: inst/report/artifacts/fig_3.png
+
+  - id: fig_4
+    type: figure
+    label: Figure 4
+    description: Levels of support by party
+    make: make_figure_4
+    format: format_figure_4
+    data: wave4_conjoint
+    artifact: inst/report/artifacts/fig_4.png
+
+  - id: fig_5
+    type: figure
+    label: Figure 5
+    description: Levels of support by migration background
+    make: make_figure_5
+    format: format_figure_5
+    data: wave4_conjoint
+    artifact: inst/report/artifacts/fig_5.png
+
+  - id: fig_6
+    type: figure
+    label: Figure 6
+    description: Marginal effects of conditions by party
+    make: make_figure_6
+    format: format_figure_6
+    data: wave4_conjoint
+    artifact: inst/report/artifacts/fig_6.png
+
+  - id: fig_7
+    type: figure
+    label: Figure 7
+    description: Marginal effects of conditions by migration background
+    make: make_figure_7
+    format: format_figure_7
+    data: wave4_conjoint
+    artifact: inst/report/artifacts/fig_7.png
+
+  - id: fig_8
+    type: figure
+    label: Figure 8
+    description: Results refreshment sample
+    make: make_figure_8
+    format: format_figure_8
+    data: wave4_conjoint
+    artifact: inst/report/artifacts/fig_8.png
+
+  - id: tab_1
+    type: table
+    label: Table 1
+    description: Structural parameter estimates
+    make: make_table_1
+    format: format_table_1
+    data: wave4_conjoint
+    artifact: inst/report/artifacts/tab_1.html
+
+  - id: tab_2
+    type: table
+    label: Table 2
+    description: "Additional analyses: Wave 2 conjoint"
+    make: make_table_2
+    format: format_table_2
+    data:
+      - wave2_survey
+      - vignette_labels
+    artifact: inst/report/artifacts/tab_2.html
