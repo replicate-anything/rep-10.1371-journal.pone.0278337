@@ -2,10 +2,17 @@ test_that("get_code wires data and includes make source for fig_1", {
   skip_if_not_installed("rep1371journalpone0278337")
   lines <- rep1371journalpone0278337::get_code("fig_1")
   code <- paste(lines, collapse = "\n")
+  expect_true(grepl("library(rep1371journalpone0278337)", code, fixed = TRUE))
+  expect_true(grepl("library(dplyr)", code, fixed = TRUE))
+  expect_true(grepl("library(ggplot2)", code, fixed = TRUE))
   expect_true(grepl("make_figure_1", code, fixed = TRUE))
   expect_true(grepl("wave4_conjoint", code, fixed = TRUE))
-  expect_true(grepl("format_figure_1", code, fixed = TRUE))
+  expect_true(grepl("obj <- make_figure_1(wave4_conjoint)", code, fixed = TRUE))
+  expect_true(grepl("obj <- format_figure_1(obj)", code, fixed = TRUE))
   expect_true(grepl("# --- R/make_figure_1.R ---", code, fixed = TRUE))
+  expect_false(any(grepl("^\\s*#'", lines)))
+  expect_false(grepl("make_fig_1 <- make_figure_1", code, fixed = TRUE))
+  expect_false(grepl("@export", code, fixed = TRUE))
 })
 
 test_that("get_code wires two datasets for tab_2", {
@@ -16,6 +23,7 @@ test_that("get_code wires two datasets for tab_2", {
   expect_true(grepl("wave2_survey", code, fixed = TRUE))
   expect_true(grepl("vignette_labels", code, fixed = TRUE))
   expect_true(grepl("survey = wave2_survey", code, fixed = TRUE))
+  expect_true(grepl("obj <- make_table_2(", code, fixed = TRUE))
 })
 
 test_that("every table and figure replication has get_code output", {

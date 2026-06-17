@@ -113,7 +113,7 @@ Optional UX: show **prep** steps from `meta$prep` as buttons before tables/figur
 ## Registry CI changes
 
 1. Stop expecting `registry/papers/10.1371_journal.pone.0278337/code/` for this study.
-2. `build_index` reads `replication.yml` from package repo (or a stub in registry pointing to package).
+2. Registry index (`index.csv`) is built from `replication.yml` stubs via `index.qmd` (or stays in sync when that Quarto doc is rendered).
 3. Artifact validation: run `rep1371journalpone0278337::build_report()` in package CI; registry checks `inst/report/manifest.json` exists on package release tag.
 
 ## Migration path for other studies

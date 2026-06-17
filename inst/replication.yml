@@ -6,6 +6,7 @@ paper:
   authors: Ferdinand Geissler, Felix Hartmann, Macartan Humphreys, Heike Klüver, Johannes Giesecke
   source_repo: https://github.com/wzb-ipi/vaccine_solidarity
   package: rep1371journalpone0278337
+  # GitHub: https://github.com/replicate-anything/rep_10.1371_journal.pone.0278337
   package_folder: rep_10.1371_journal.pone.0278337
   package_repo: replicate-anything/rep_10.1371_journal.pone.0278337
   package_ref: main
