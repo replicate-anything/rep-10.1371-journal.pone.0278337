@@ -1,5 +1,10 @@
 #' Build all report artifacts into `inst/report/artifacts/`
 #'
+#' Maintainer/CI helper: bakes precomputed outputs into the installed package so
+#' Shiny **Display** can load them instantly. During development, Shiny falls
+#' back to a live run when artifacts are missing — you do not need to call this
+#' to use the app locally.
+#'
 #' @param output_dir Directory for generated files.
 #' @return Invisibly, a manifest list.
 #' @export

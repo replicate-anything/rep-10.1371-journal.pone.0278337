@@ -10,19 +10,36 @@ Source analysis repository: [wzb-ipi/vaccine_solidarity](https://github.com/wzb-
 
 ```
 rep_10.1371_journal.pone.0278337/
-  replication.yml          # registry metadata (also in inst/)
-  data/                    # wave4_conjoint, wave2_survey, vignette_labels
-  R/
+  replication.yml          # edit here; copied to inst/ by sync script
+  data/                    # wave4_conjoint, wave2_survey, vignette_labels (.rda)
+  data-raw/                # CSV sources + build/sync scripts
+  R/                       # canonical package source (edit these files)
     helpers.R              # shared helpers
     prep_data.R            # rebuild analysis data from combined.csv
     prep_data_tab_2.R      # conjoint reshape for Table 2
-    make_figure_*.R        # analysis + display for each figure
-    make_table_*.R         # analysis for each table
+    make_figure_*.R        # figure builders
+    make_table_*.R         # table builders
     format_outputs.R       # display formatters
-    build_report.R         # write inst/report/artifacts/*
+    replication_code.R     # get_code() for Shiny Code tab
     replication_api.R      # list_replications(), run_replication(), load_artifact()
-  inst/report/artifacts/   # precomputed outputs for Shiny Display
+    build_report.R         # write inst/report/artifacts/*
+  inst/
+    replication.yml        # installed copy (do not edit by hand)
+    replication_code/      # installed copies of make_*/prep_*/format_outputs.R
+    report/artifacts/        # precomputed outputs for Shiny Display
 ```
+
+### R/ vs inst/replication_code/
+
+`R/` is the **only place to edit** analysis code. Files under `inst/replication_code/` are **generated copies** so `get_code()` can show source after `R CMD INSTALL` (installed packages do not ship `R/`). Regenerate with:
+
+```bash
+Rscript data-raw/sync_replication_code.R
+```
+
+Run this after changing any `make_*`, `prep_data*`, or `format_outputs.R`, and before release. A test checks the copies stay in sync.
+
+`inst/replication.yml` is synced the same way from the package-root `replication.yml`.
 
 ## Quick start
 
@@ -34,8 +51,9 @@ library(rep1371journalpone0278337)
 list_replications()
 make_figure_1()
 make_table_1()
-build_report()   # regenerate inst/report/artifacts/
 ```
+
+`build_report()` is only for **package release / CI** — it writes precomputed PNG/HTML into `inst/report/artifacts/` so published installs serve fast Display. Shiny runs replications live when artifacts are absent, so you do not need this during normal development.
 
 ## Data
 
@@ -43,6 +61,7 @@ Package data are built from CSV sources in `data-raw/`:
 
 ```bash
 Rscript data-raw/build_package_data.R
+Rscript data-raw/sync_replication_code.R
 ```
 
 To rebuild from raw survey export (requires `combined.csv` from vaccine_solidarity):

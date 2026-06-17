@@ -2,7 +2,7 @@ if (!file.exists("DESCRIPTION")) {
   stop("Run from package root: Rscript data-raw/sync_replication_code.R", call. = FALSE)
 }
 
-copy_sources <- function() {
+sync_replication_code <- function() {
   r_files <- list.files("R", pattern = "\\.R$", full.names = TRUE)
   keep <- grepl(
     "^(make_|prep_data|format_outputs)",
@@ -18,7 +18,14 @@ copy_sources <- function() {
     file.copy(path, dest, overwrite = TRUE)
   }
 
-  message("Synced ", length(r_files), " file(s) to inst/replication_code/")
+  if (file.exists("replication.yml")) {
+    file.copy("replication.yml", file.path("inst", "replication.yml"), overwrite = TRUE)
+  }
+
+  message(
+    "Synced ", length(r_files), " R source(s) to inst/replication_code/",
+    " and replication.yml to inst/"
+  )
 }
 
-copy_sources()
+sync_replication_code()
