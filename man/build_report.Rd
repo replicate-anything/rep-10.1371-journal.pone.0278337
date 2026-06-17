@@ -13,5 +13,8 @@ build_report(output_dir = NULL)
 Invisibly, a manifest list.
 }
 \description{
-Build all report artifacts into \verb{inst/report/artifacts/}
+Maintainer/CI helper: bakes precomputed outputs into the installed package so
+Shiny \strong{Display} can load them instantly. During development, Shiny falls
+back to a live run when artifacts are missing — you do not need to call this
+to use the app locally.
 }
