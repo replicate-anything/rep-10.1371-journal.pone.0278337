@@ -2,18 +2,25 @@
 
 This document describes how `rep_10.1371_journal.pone.0278337` fits into the existing `registry` + `replicateEverything` + Shiny stack with **minimal changes**.
 
-## Design principle
+## Design principle (recommended)
 
 | Layer | Responsibility |
 |-------|----------------|
-| **Study package** (`rep_*`) | Data, prep, analysis functions, tests, precomputed `inst/report/artifacts/` |
-| **Registry** (`registry/`) | Index only: DOI, title, authors, pointer to package repo |
-| **replicateEverything** | Install/load study package, dispatch `run_replication()` / `load_artifact()` |
-| **Shiny** | Unchanged UI; calls replicateEverything as today |
+| **Registry** (`registry/papers/<folder>/`) | Index stub, **display artifacts** (`artifacts/`), optional synced `code/` mirrors |
+| **Study package** (`rep_*` on GitHub) | Canonical **code**, **data**, tests, `build_report()` |
+| **replicateEverything** | Fetch yaml/code/artifacts over HTTPS; **install package only for Run** |
+| **Shiny** | Display artifacts from registry; Code from package repo URLs; Run needs package |
 
-Replication code **does not** live under `registry/papers/` anymore for this study.
+### What lives where
 
-## replication.yml contract (study package root)
+- **Display (precomputed)** — `registry/papers/<folder>/artifacts/` (sync from package CI). No R package install.
+- **Index (figure/table list)** — `replication.yml` on the **package repo** (registry stub points to it).
+- **Code tab** — `inst/replication_code/*.R` on the **package repo** (same pattern as `registry/.../code/*.R`).
+- **Run (live)** — requires the **installed study package** (data and helpers live there).
+
+Do **not** duplicate the full package into the registry. Optionally CI-sync `artifacts/` and `code/` from the package so the registry repo alone can serve a read-only Shiny deployment.
+
+### Registry stub example
 
 The study package ships `replication.yml` (copied to `inst/replication.yml` for `system.file()`).
 
