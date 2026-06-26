@@ -2,17 +2,7 @@
 % Please edit documentation in R/format_outputs.R
 \name{format_outputs}
 \alias{format_outputs}
-\alias{format_figure_1}
-\alias{format_table_1}
-\alias{format_table_2}
 \title{Format replication outputs for display}
-\usage{
-format_figure_1(object, ...)
-
-format_table_1(object, ...)
-
-format_table_2(object, ...)
-}
 \description{
 Format replication outputs for display
 }

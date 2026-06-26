@@ -67,6 +67,7 @@ format_figure_8 <- function(object, ...) object
 #' @export
 format_fig_8 <- format_figure_8
 
+#' @param object Data frame from [make_table_1()].
 #' @rdname format_outputs
 #' @export
 format_table_1 <- function(object, ...) {
@@ -77,10 +78,11 @@ format_table_1 <- function(object, ...) {
 #' @export
 format_tab_1 <- format_table_1
 
+#' @param object `kableExtra` table from [make_table_2()].
 #' @rdname format_outputs
 #' @export
 format_table_2 <- function(object, ...) {
-  as.character(object)
+  paste(as.character(object), collapse = "\n")
 }
 
 #' @rdname format_table_2

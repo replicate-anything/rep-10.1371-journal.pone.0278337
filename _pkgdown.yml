@@ -1,0 +1,18 @@
+url: https://replicate-anything.github.io/rep_10.1371_journal.pone.0278337/
+
+template:
+  bootstrap: 5
+
+authors:
+  Macartan Humphreys:
+    href: https://www.macartanhumphreys.com/
+
+home:
+  title: Vaccine solidarity replication package
+  description: >
+    Self-contained replication for Geissler et al. (2022), PLOS ONE.
+
+articles:
+- title: Replication vignette
+  desc: Reproduce main tables and figures from inst/replication_code/
+  contents: vaccine-solidarity-replication

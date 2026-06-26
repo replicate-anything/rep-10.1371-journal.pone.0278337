@@ -4,8 +4,10 @@
 #' @return A ggplot object.
 #' @export
 make_figure_7 <- function(data = wave4_conjoint) {
+  results <- fit_marginal_effects_by(data, "migration_background")
+  results$migration_background <- factor(results$migration_background)
   plot_marginal_effects(
-    fit_marginal_effects_by(data, "migration_background"),
+    results,
     group_var = "migration_background",
     flip_axes = TRUE
   )

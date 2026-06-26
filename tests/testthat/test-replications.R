@@ -27,7 +27,7 @@ test_that("make_table_2 returns a displayable table", {
   skip_if_not_installed("rep1371journalpone0278337")
   skip_if_not_installed("modelsummary")
   tbl <- rep1371journalpone0278337::make_table_2()
-  expect_true(inherits(tbl, "knitr_kable") || inherits(tbl, "character"))
+  expect_s3_class(tbl, "knitr_kable")
 })
 
 test_that("list_replications reads yaml entries", {
@@ -37,6 +37,15 @@ test_that("list_replications reads yaml entries", {
   expect_true("fig_1" %in% ids)
   expect_true("tab_2" %in% ids)
   expect_true("prep_data" %in% ids)
+})
+
+test_that("make_figure_2 facet labels distinguish cash and doses", {
+  skip_if_not_installed("rep1371journalpone0278337")
+  p <- rep1371journalpone0278337::make_figure_2()
+  plot_df <- p$data
+  expect_true(all(c("Cash (billion Euros)", "Doses (Millions)") %in%
+    levels(plot_df$outcome)))
+  expect_false(any(is.na(plot_df$outcome)))
 })
 
 test_that("run_replication produces figure 2", {

@@ -53,7 +53,21 @@ make_figure_1()
 make_table_1()
 ```
 
-`build_report()` is only for **package release / CI** — it writes precomputed PNG/HTML into `inst/report/artifacts/` so published installs serve fast Display. Shiny runs replications live when artifacts are absent, so you do not need this during normal development.
+`build_report()` is only for **package release / CI** — it writes precomputed PNG/HTML into `inst/report/artifacts/` so published installs serve fast Display. Shiny runs replications live when artifacts are absent, so you do not need this to use the app locally.
+
+### Replication vignette (Quarto)
+
+The main analysis is in `vignettes/vaccine-solidarity-replication.qmd` (mirrors
+`vaccine_solidarity/analysis.Rmd` using one `make_*` script per figure/table).
+Render locally:
+
+```bash
+quarto render vignettes/vaccine-solidarity-replication.qmd
+```
+
+For a full HTML site including the vignette, run `build_report()` first (optional,
+for table display), then `pkgdown::build_site()`. Table chunks are `eval: false`
+by default so you can step through the slow structural fit manually.
 
 ## Data
 

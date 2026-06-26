@@ -4,21 +4,14 @@
 \alias{plot_marginal_effects}
 \title{Dot-and-whisker plot for marginal effects}
 \usage{
-plot_marginal_effects(
-  results,
-  group_var = NULL,
-  flip_axes = FALSE,
-  group_labels = NULL
-)
+plot_marginal_effects(results, group_var = NULL, flip_axes = FALSE)
 }
 \arguments{
 \item{results}{Output of \code{\link[=fit_marginal_effects]{fit_marginal_effects()}} or \code{\link[=fit_marginal_effects_by]{fit_marginal_effects_by()}}.}
 
-\item{group_var}{Optional grouping column for dodged plots.}
+\item{group_var}{Grouping column for dodged plots (\code{NULL} for a single series).}
 
 \item{flip_axes}{Use horizontal treatment labels.}
-
-\item{group_labels}{Optional named vector for legend labels.}
 }
 \value{
 A ggplot object.

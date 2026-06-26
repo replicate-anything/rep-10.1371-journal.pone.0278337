@@ -1,5 +1,7 @@
 pkg_name <- function() "rep1371journalpone0278337"
 
+`%||%` <- function(a, b) if (is.null(a)) b else a
+
 #' Load a dataset or object from this package
 #'
 #' LazyData objects are not visible in the package namespace; use `::` access.
@@ -63,7 +65,7 @@ run_replication <- function(id, install_deps = FALSE) {
     return(prep_data_tab_2())
   }
 
-  make_fn <- get(entry$make, mode = "function", envir = asNamespace("rep1371journalpone0278337"))
+  make_fn <- get(entry$make, mode = "function", envir = asNamespace(pkg_name()))
   data_names <- entry$data
   if (is.null(data_names)) {
     obj <- make_fn()
@@ -78,11 +80,8 @@ run_replication <- function(id, install_deps = FALSE) {
     obj <- do.call(make_fn, args)
   }
 
-  if (!is.null(entry$format) && nzchar(entry$format)) {
-    fmt <- get(entry$format, mode = "function", envir = asNamespace("rep1371journalpone0278337"))
-    return(fmt(obj))
-  }
-  obj
+  fmt <- get(entry$format, mode = "function", envir = asNamespace(pkg_name()))
+  fmt(obj)
 }
 
 #' Load a precomputed artifact from `inst/report/artifacts/`

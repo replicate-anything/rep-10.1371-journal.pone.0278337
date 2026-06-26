@@ -102,7 +102,7 @@ structural_lik_x <- function(x, sigma, a, b, c, g, k, ZT, ZR, ZY, Zy) {
 fit_marginal_effects <- function(data) {
   formula_rhs <- "trading_importance * risk * others_number_norm * others_giving_norm + round"
   dplyr::bind_rows(
-    cash = broom::tidy(
+    cash_billions = broom::tidy(
       estimatr::lm_robust(
         stats::as.formula(paste("cash_billions ~", formula_rhs)),
         fixed_effects = ~id,
@@ -140,16 +140,14 @@ fit_marginal_effects_by <- function(data, split_var) {
 #' Dot-and-whisker plot for marginal effects
 #'
 #' @param results Output of [fit_marginal_effects()] or [fit_marginal_effects_by()].
-#' @param group_var Optional grouping column for dodged plots.
+#' @param group_var Grouping column for dodged plots (`NULL` for a single series).
 #' @param flip_axes Use horizontal treatment labels.
-#' @param group_labels Optional named vector for legend labels.
 #' @return A ggplot object.
 #' @export
 plot_marginal_effects <- function(
   results,
   group_var = NULL,
-  flip_axes = FALSE,
-  group_labels = NULL
+  flip_axes = FALSE
 ) {
   terms <- treatment_terms()
   plot_df <- results |>
@@ -205,12 +203,6 @@ plot_marginal_effects <- function(
       ) +
       ggplot2::facet_grid(~outcome, scales = "free_x") +
       ggplot2::xlab("")
-    if (!is.null(group_labels)) {
-      p <- p + ggplot2::scale_color_discrete(
-        name = names(group_labels)[1] %||% group_var,
-        labels = unname(group_labels)
-      )
-    }
   }
 
   p <- p + ggplot2::theme_bw()
@@ -219,5 +211,3 @@ plot_marginal_effects <- function(
   }
   p
 }
-
-`%||%` <- function(a, b) if (is.null(a)) b else a
