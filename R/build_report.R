@@ -10,14 +10,7 @@ artifact_output_dir <- function(output_dir = NULL) {
   if (!is.null(output_dir)) {
     return(output_dir)
   }
-  if (dir.exists("inst")) {
-    return(file.path("inst", "report", "artifacts"))
-  }
-  installed <- system.file("report", "artifacts", package = pkg_name())
-  if (nzchar(installed)) {
-    return(installed)
-  }
-  file.path("inst", "report", "artifacts")
+  file.path(package_root(), "inst", "report", "artifacts")
 }
 
 #' Build all report artifacts into `inst/report/artifacts/`
@@ -28,14 +21,24 @@ artifact_output_dir <- function(output_dir = NULL) {
 #' to use the app locally.
 #'
 #' @param output_dir Directory for generated files.
+#' @param ids Optional replication ids to build (e.g. `"tab_2"`). Default: all
+#'   entries in `replication.yml`.
 #' @return Invisibly, a manifest list.
 #' @export
-build_report <- function(output_dir = NULL) {
+build_report <- function(output_dir = NULL, ids = NULL) {
   output_dir <- artifact_output_dir(output_dir)
   dir.create(output_dir, recursive = TRUE, showWarnings = FALSE)
 
   meta <- replication_meta()
-  for (entry in meta$replications) {
+  entries <- meta$replications
+  if (!is.null(ids)) {
+    ids <- as.character(ids)
+    entries <- entries[vapply(entries, function(x) x$id %in% ids, logical(1))]
+    if (length(entries) == 0) {
+      stop("No matching replication ids in replication.yml.", call. = FALSE)
+    }
+  }
+  for (entry in entries) {
     id <- entry$id
     obj <- run_replication(id)
     if (identical(entry$type, "figure")) {

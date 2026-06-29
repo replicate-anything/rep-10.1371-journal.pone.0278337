@@ -2,7 +2,7 @@
 % Please edit documentation in R/replication_api.R
 \name{load_artifact}
 \alias{load_artifact}
-\title{Load a precomputed artifact from \verb{inst/report/artifacts/}}
+\title{Load a precomputed display artifact from \verb{inst/report/artifacts/}}
 \usage{
 load_artifact(id)
 }
@@ -10,8 +10,8 @@ load_artifact(id)
 \item{id}{Replication id.}
 }
 \value{
-File path or loaded object.
+For figures, a path to a PNG; for tables, an HTML string; or \code{NULL}.
 }
 \description{
-Load a precomputed artifact from \verb{inst/report/artifacts/}
+Load a precomputed display artifact from \verb{inst/report/artifacts/}
 }

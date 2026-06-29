@@ -1,140 +1,57 @@
-# Integration plan: study-specific replication packages
+# Integration: package-backed studies in the registry
 
-This document describes how `rep_10.1371_journal.pone.0278337` fits into the existing `registry` + `replicateEverything` + Shiny stack with **minimal changes**.
-
-## Design principle (recommended)
+## Design principle
 
 | Layer | Responsibility |
 |-------|----------------|
-| **Registry** (`registry/papers/<folder>/`) | Index stub, **display artifacts** (`artifacts/`), optional synced `code/` mirrors |
-| **Study package** (`rep_*` on GitHub) | Canonical **code**, **data**, tests, `build_report()` |
-| **replicateEverything** | Fetch yaml/code/artifacts over HTTPS; **install package only for Run** |
-| **Shiny** | Display artifacts from registry; Code from package repo URLs; Run needs package |
+| **Registry** (`registry/papers/<folder>/`) | **Stub only**: DOI metadata + `paper.package` link for the index |
+| **Study package** (`rep_*`) | Code, data, `replication.yml` (full), `build_report()` artifacts |
+| **replicateEverything** | Merge package yaml; dispatch Run/Code/Display to the package |
+| **Shiny** | Same as replicateEverything (no registry `code/` or `artifacts/`) |
 
-### What lives where
-
-- **Display (precomputed)** — `registry/papers/<folder>/artifacts/` (sync from package CI). No R package install.
-- **Index (figure/table list)** — `replication.yml` on the **package repo** (registry stub points to it).
-- **Code tab** — `inst/replication_code/*.R` on the **package repo** (same pattern as `registry/.../code/*.R`).
-- **Run (live)** — requires the **installed study package** (data and helpers live there).
-
-Do **not** duplicate the full package into the registry. Optionally CI-sync `artifacts/` and `code/` from the package so the registry repo alone can serve a read-only Shiny deployment.
-
-### Registry stub example
-
-The study package ships `replication.yml` (copied to `inst/replication.yml` for `system.file()`).
-
-New fields compared to registry papers:
+## Registry stub (all you need in `registry/papers/<folder>/`)
 
 ```yaml
 paper:
-  package: rep1371journalpone0278337   # R package name
+  doi: https://doi.org/10.1371/journal.pone.0278337
+  title: "..."
+  journal: PLOS ONE
+  year: 2022
+  authors: ...
+  package: rep1371journalpone0278337
+  package_folder: rep_10.1371_journal.pone.0278337   # monorepo sibling (optional)
+  package_repo: replicate-anything/rep_10.1371_journal.pone.0278337
+  package_ref: main
 repo: replicate-anything/rep_10.1371_journal.pone.0278337
-
-prep:                                 # optional prep steps (Shiny "Run" buttons)
-  - id: prep_data
-    code: prep_data
-    ...
-
-replications:
-  - id: fig_1
-    make: make_figure_1
-    format: format_figure_1
-    data: wave4_conjoint
-    artifact: inst/report/artifacts/fig_1.png
 ```
 
-Registry `index.csv` row for this study becomes:
+No `replications:`, `code/`, `data/`, or `artifacts/` in the registry.
 
-```csv
-folder,doi,title,journal,year,authors,repo
-10.1371_journal.pone.0278337,https://doi.org/10.1371/journal.pone.0278337,...,replicate-anything/rep_10.1371_journal.pone.0278337
-```
+`replicateEverything::enrich_package_replication_meta()` fills `replications`
+from the package `replication.yml` (GitHub or installed package).
 
-`index.qmd` should read `paper$package` and `repo` from each study's `replication.yml` (whether in registry or fetched from the package repo).
+## What lives in the study package
 
-## Minimal replicateEverything changes
+| Need | Location |
+|------|----------|
+| Replication list | `replication.yml` → `inst/replication.yml` |
+| Analysis code | `R/make_*.R` → `inst/replication_code/` |
+| Data | `data/` (LazyData) |
+| Display artifacts | `inst/report/artifacts/` via `build_report()` |
+| Vignette / pkgdown | package vignettes |
 
-### 1. Detect package-backed studies
+## Shiny & replicateEverything behavior
 
-In `get_replication_meta()` / `paper_context()`:
+- **Display** → `package::load_artifact(id)` (reads `inst/report/artifacts/`)
+- **Code** → `package::get_code(id)` or raw GitHub `inst/replication_code/`
+- **Run** → `package::run_replication(id)` (requires installed/loaded package)
 
-```r
-# If meta$paper$package is set:
-#   - repo points to package GitHub slug (not registry/papers/...)
-#   - base_url is not used for code/data
-#   - ensure_package(meta$paper$package, repo)
-```
+Registry `scripts/build_artifacts.R` **skips** package-backed papers; run
+`build_report()` in the study package instead.
 
-### 2. New helper: `ensure_replication_package()`
+## Required package API
 
-```r
-ensure_replication_package <- function(package, repo) {
-  if (!requireNamespace(package, quietly = TRUE)) {
-    remotes::install_github(repo, upgrade = "ask")
-  }
-  invisible(TRUE)
-}
-```
-
-### 3. Dispatch in `list_replications()` and `render_replication()`
-
-```r
-if (!is.null(meta$paper$package)) {
-  pkg <- meta$paper$package
-  ensure_replication_package(pkg, ctx$repo)
-  return(get("list_replications", asNamespace(pkg))())
-}
-
-# render:
-obj <- get("run_replication", asNamespace(pkg))(what, install_deps = install_deps)
-```
-
-### 4. Artifacts from package
-
-```r
-load_artifact <- function(doi, what, ...) {
-  meta <- get_replication_meta(doi, ...)
-  if (!is.null(meta$paper$package)) {
-    pkg <- meta$paper$package
-    return(get("load_artifact", asNamespace(pkg))(what))
-  }
-  # existing registry/papers/... path logic
-}
-```
-
-### 5. Optional: `format_for_display()` passthrough
-
-Package `run_replication()` already applies `format_*`. Shiny can treat returned HTML/ggplot as display-ready when `source = "package"`.
-
-## Minimal Shiny changes
-
-**None required** if replicateEverything API stays stable:
-
-- `list_replications(doi)` still returns replication list
-- `load_artifact(doi, what)` still works
-- `render_for_display(doi, what)` still works
-
-Optional UX: show **prep** steps from `meta$prep` as buttons before tables/figures (vaccine solidarity: `prep_data`, `prep_data_tab_2`).
-
-## Registry CI changes
-
-1. Stop expecting `registry/papers/10.1371_journal.pone.0278337/code/` for this study.
-2. Registry index (`index.csv`) is built from `replication.yml` stubs via `index.qmd` (or stays in sync when that Quarto doc is rendered).
-3. Artifact validation: run `rep1371journalpone0278337::build_report()` in package CI; registry checks `inst/report/manifest.json` exists on package release tag.
-
-## Migration path for other studies
-
-1. Create `rep_<doi-encoding>/` beside monorepo root.
-2. Move code/data from `registry/papers/<folder>/` into package.
-3. Update registry index row `repo` column.
-4. Remove `registry/papers/<folder>/` once package is published.
-
-## Current status
-
-- [x] Study package scaffolded at `rep_10.1371_journal.pone.0278337/`
-- [x] `replication.yml` with prep + 8 figures + 2 tables
-- [x] Package API: `list_replications()`, `run_replication()`, `load_artifact()`, `build_report()`
-- [ ] Wire `replicateEverything` dispatch (see section above)
-- [ ] Update registry index row to point at package repo
-- [ ] Remove duplicate `registry/papers/10.1371_journal.pone.0278337/` after cutover
+- `list_replications()`, `replication_meta()`
+- `run_replication(id)`
+- `load_artifact(id)`, `artifact_file(id)`
+- `get_code(id)`, `build_report()`

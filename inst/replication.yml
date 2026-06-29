@@ -113,15 +113,6 @@ replications:
     data: wave4_conjoint
     artifact: inst/report/artifacts/fig_8.png
 
-  - id: tab_1
-    type: table
-    label: Table 1
-    description: Structural parameter estimates
-    make: make_table_1
-    format: format_table_1
-    data: wave4_conjoint
-    artifact: inst/report/artifacts/tab_1.html
-
   - id: tab_2
     type: table
     label: Table 2
@@ -132,3 +123,12 @@ replications:
       - wave2_survey
       - vignette_labels
     artifact: inst/report/artifacts/tab_2.html
+
+  - id: tab_1
+    type: table
+    label: Table 1
+    description: Structural parameter estimates
+    make: make_table_1
+    format: format_table_1
+    data: wave4_conjoint
+    artifact: inst/report/artifacts/tab_1.html

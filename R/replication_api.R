@@ -2,6 +2,66 @@ pkg_name <- function() "rep1371journalpone0278337"
 
 `%||%` <- function(a, b) if (is.null(a)) b else a
 
+#' Package source or installation root
+#' @keywords internal
+package_root <- function() {
+  getNamespaceInfo(asNamespace(pkg_name()), "path")
+}
+
+#' Path to a baked artifact file under `inst/report/artifacts/`
+#'
+#' @param id Replication id.
+#' @param ext File extension (`png`, `html`, `rds`, ...).
+#' @keywords internal
+artifact_path <- function(id, ext) {
+  fname <- paste0(id, ".", ext)
+
+  installed <- system.file("report", "artifacts", fname, package = pkg_name())
+  if (nzchar(installed) && file.exists(installed)) {
+    return(installed)
+  }
+
+  pkg_artifact <- file.path(
+    package_root(),
+    "inst",
+    "report",
+    "artifacts",
+    fname
+  )
+  if (file.exists(pkg_artifact)) {
+    return(normalizePath(pkg_artifact, winslash = "/", mustWork = FALSE))
+  }
+
+  NULL
+}
+
+#' Resolve path to a precomputed artifact file
+#'
+#' @param id Replication id.
+#' @return Character path, or `NULL` if not baked yet (run [build_report()]).
+#' @export
+artifact_file <- function(id) {
+  for (ext in c("png", "html", "rds", "svg")) {
+    path <- artifact_path(id, ext)
+    if (!is.null(path)) {
+      return(path)
+    }
+  }
+  NULL
+}
+
+#' Read artifact bytes from a resolved path
+#' @keywords internal
+read_artifact_at_path <- function(path) {
+  ext <- tolower(tools::file_ext(path))
+  switch(
+    ext,
+    html = paste(readLines(path, warn = FALSE, encoding = "UTF-8"), collapse = "\n"),
+    rds = readRDS(path),
+    path
+  )
+}
+
 #' Load a dataset or object from this package
 #'
 #' LazyData objects are not visible in the package namespace; use `::` access.
@@ -84,32 +144,17 @@ run_replication <- function(id, install_deps = FALSE) {
   fmt(obj)
 }
 
-#' Load a precomputed artifact from `inst/report/artifacts/`
+#' Load a precomputed display artifact from `inst/report/artifacts/`
 #'
 #' @param id Replication id.
-#' @return File path or loaded object.
+#' @return For figures, a path to a PNG; for tables, an HTML string; or `NULL`.
 #' @export
 load_artifact <- function(id) {
-  path <- system.file(
-    "report", "artifacts", paste0(id, ".png"),
-    package = "rep1371journalpone0278337"
-  )
-  if (nzchar(path) && file.exists(path)) {
-    return(path)
-  }
-  path <- system.file(
-    "report", "artifacts", paste0(id, ".html"),
-    package = "rep1371journalpone0278337"
-  )
-  if (nzchar(path) && file.exists(path)) {
-    return(paste(readLines(path, warn = FALSE), collapse = "\n"))
-  }
-  path <- system.file(
-    "report", "artifacts", paste0(id, ".rds"),
-    package = "rep1371journalpone0278337"
-  )
-  if (nzchar(path) && file.exists(path)) {
-    return(readRDS(path))
+  for (ext in c("png", "html", "rds", "svg")) {
+    path <- artifact_path(id, ext)
+    if (!is.null(path)) {
+      return(read_artifact_at_path(path))
+    }
   }
   NULL
 }

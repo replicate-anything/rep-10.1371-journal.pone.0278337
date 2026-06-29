@@ -14,8 +14,7 @@ show_table_artifact <- function(id) {
   if (is.null(html)) {
     knitr::asis_output(paste0(
       "<p><em>No precomputed artifact for <code>", id, "</code>. ",
-      "Set <code>re_run_slow_analyses &lt;- TRUE</code> in setup, or run ",
-      "<code>build_report()</code> before rendering.</em></p>"
+      "Run <code>build_report()</code> before rendering.</em></p>"
     ))
   } else {
     knitr::asis_output(html)

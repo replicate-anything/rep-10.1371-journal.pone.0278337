@@ -6,24 +6,24 @@
 make_table_1 <- function(data = wave4_conjoint) {
   df_4 <- dplyr::mutate(data, x = .data$cash_billions)
 
+  # Vectorized likelihood (matches analysis.Rmd: with(df_4, lik_x(x, ...))).
+  # Do not use mapply() here — passing full covariate vectors in MoreArgs
+  # creates an n×n matrix and the wrong objective.
   LL <- function(a = 1, b = 1, c = 1, g = 1, k = 1, sigma = 1) {
-    R <- mapply(
-      structural_lik_x,
+    lik <- structural_lik_x(
       df_4$x,
-      MoreArgs = list(
-        sigma = sigma,
-        a = a,
-        b = b,
-        c = c,
-        g = g,
-        k = k,
-        ZT = df_4$trading_importance,
-        ZR = df_4$risk,
-        ZY = df_4$others_giving,
-        Zy = df_4$others_average
-      )
+      sigma,
+      a,
+      b,
+      c,
+      g,
+      k,
+      df_4$trading_importance,
+      df_4$risk,
+      df_4$others_giving,
+      df_4$others_average
     )
-    -sum(log(R))
+    -sum(log(lik))
   }
 
   fit <- bbmle::mle2(

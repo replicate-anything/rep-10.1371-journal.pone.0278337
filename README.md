@@ -65,9 +65,9 @@ Render locally:
 quarto render vignettes/vaccine-solidarity-replication.qmd
 ```
 
-For a full HTML site including the vignette, run `build_report()` first (optional,
-for table display), then `pkgdown::build_site()`. Table chunks are `eval: false`
-by default so you can step through the slow structural fit manually.
+For a full HTML site including the vignette, run `pkgdown::build_site()`. Tables
+and figures run live in the vignette (~10 seconds total). Run `build_report()`
+separately if you need precomputed Display artifacts for Shiny or pkgdown.
 
 ## Data
 

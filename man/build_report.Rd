@@ -4,10 +4,13 @@
 \alias{build_report}
 \title{Build all report artifacts into \verb{inst/report/artifacts/}}
 \usage{
-build_report(output_dir = NULL)
+build_report(output_dir = NULL, ids = NULL)
 }
 \arguments{
 \item{output_dir}{Directory for generated files.}
+
+\item{ids}{Optional replication ids to build (e.g. \code{"tab_2"}). Default: all
+entries in \code{replication.yml}.}
 }
 \value{
 Invisibly, a manifest list.
