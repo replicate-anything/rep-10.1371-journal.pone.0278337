@@ -13,6 +13,7 @@ Self-contained replication package for "Public support for global vaccine sharin
 
 Authors:
 \itemize{
+  \item Macartan Humphreys \email{macartan.humphreys@wzb.eu}
   \item Ferdinand Geissler
   \item Felix Hartmann
   \item Heike Klüver
