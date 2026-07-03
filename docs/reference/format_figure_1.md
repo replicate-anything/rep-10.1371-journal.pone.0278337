@@ -44,5 +44,5 @@ format_fig_8(object, ...)
 - object:
 
   ggplot object from the corresponding
-  [`make_figure_1()`](https://replicate-anything.github.io/rep_10.1371_journal.pone.0278337/reference/make_figure_1.md)
+  [`make_figure_1()`](https://replicate-anything.github.io/rep-10.1371_journal.pone.0278337/reference/make_figure_1.md)
   (etc.).

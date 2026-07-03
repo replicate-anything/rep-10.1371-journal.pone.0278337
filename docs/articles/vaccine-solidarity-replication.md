@@ -53,7 +53,7 @@ data(vignette_labels, package = "rep1371journalpone0278337")
 The source repository rebuilds `df_4` and `df_2` from raw CSV exports.
 This package ships prepared **`wave4_conjoint`**, **`wave2_survey`**,
 and **`vignette_labels`**. Rebuild from raw data with
-[`prep_data()`](https://replicate-anything.github.io/rep_10.1371_journal.pone.0278337/reference/prep_data.md)
+[`prep_data()`](https://replicate-anything.github.io/rep-10.1371_journal.pone.0278337/reference/prep_data.md)
 when needed.
 
     $wave4_rows

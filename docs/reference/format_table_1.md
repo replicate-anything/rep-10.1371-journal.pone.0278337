@@ -15,4 +15,4 @@ format_tab_1(object, ...)
 - object:
 
   Data frame from
-  [`make_table_1()`](https://replicate-anything.github.io/rep_10.1371_journal.pone.0278337/reference/make_table_1.md).
+  [`make_table_1()`](https://replicate-anything.github.io/rep-10.1371_journal.pone.0278337/reference/make_table_1.md).

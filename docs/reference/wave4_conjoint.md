@@ -2,7 +2,7 @@
 
 Prepared analysis data for wave 4 of the vaccine solidarity survey.
 Derived from the raw export via
-[`prep_data()`](https://replicate-anything.github.io/rep_10.1371_journal.pone.0278337/reference/prep_data.md).
+[`prep_data()`](https://replicate-anything.github.io/rep-10.1371_journal.pone.0278337/reference/prep_data.md).
 
 ## Usage
 

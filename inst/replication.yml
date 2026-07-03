@@ -6,9 +6,9 @@ paper:
   authors: Ferdinand Geissler, Felix Hartmann, Macartan Humphreys, Heike Klüver, Johannes Giesecke
   source_repo: https://github.com/wzb-ipi/vaccine_solidarity
   package: rep1371journalpone0278337
-  # GitHub: https://github.com/replicate-anything/rep_10.1371_journal.pone.0278337
-  package_folder: rep_10.1371_journal.pone.0278337
-  package_repo: replicate-anything/rep_10.1371_journal.pone.0278337
+  # GitHub: https://github.com/replicate-anything/rep-10.1371_journal.pone.0278337
+  package_folder: rep-10.1371_journal.pone.0278337
+  package_repo: replicate-anything/rep-10.1371_journal.pone.0278337
   package_ref: main
   dependencies:
     - dplyr
@@ -21,7 +21,7 @@ paper:
     - kableExtra
 
 # Registry index builder: set repo to this package's GitHub slug (not registry/papers/).
-repo: replicate-anything/rep_10.1371_journal.pone.0278337
+repo: replicate-anything/rep-10.1371_journal.pone.0278337
 
 prep:
   - id: prep_data

@@ -2,7 +2,7 @@
 
 Returns the relevant `make_*` (or prep) source file plus YAML-wired data
 loading and run lines, matching how
-[`run_replication()`](https://replicate-anything.github.io/rep_10.1371_journal.pone.0278337/reference/run_replication.md)
+[`run_replication()`](https://replicate-anything.github.io/rep-10.1371_journal.pone.0278337/reference/run_replication.md)
 executes the entry.
 
 ## Usage
