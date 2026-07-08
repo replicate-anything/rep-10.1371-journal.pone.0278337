@@ -23,45 +23,21 @@ artifact_output_dir <- function(output_dir = NULL) {
 #' @param output_dir Directory for generated files.
 #' @param ids Optional replication ids to build (e.g. `"tab_2"`). Default: all
 #'   entries in `replication.yml`.
+#' @param install_deps Install missing CRAN dependencies when `TRUE`.
 #' @return Invisibly, a manifest list.
 #' @export
-build_report <- function(output_dir = NULL, ids = NULL) {
-  output_dir <- artifact_output_dir(output_dir)
-  dir.create(output_dir, recursive = TRUE, showWarnings = FALSE)
-
-  meta <- replication_meta()
-  entries <- meta$replications
-  if (!is.null(ids)) {
-    ids <- as.character(ids)
-    entries <- entries[vapply(entries, function(x) x$id %in% ids, logical(1))]
-    if (length(entries) == 0) {
-      stop("No matching replication ids in replication.yml.", call. = FALSE)
-    }
+build_report <- function(output_dir = NULL, ids = NULL, install_deps = TRUE) {
+  if (!requireNamespace("replicateEverything", quietly = TRUE)) {
+    stop(
+      "build_report() requires replicateEverything. ",
+      "Install it or call the legacy make_* functions directly.",
+      call. = FALSE
+    )
   }
-  for (entry in entries) {
-    id <- entry$id
-    obj <- run_replication(id)
-    if (identical(entry$type, "figure")) {
-      out <- file.path(output_dir, paste0(id, ".png"))
-      grDevices::png(out, width = 10, height = 6, units = "in", res = 150)
-      print(obj)
-      grDevices::dev.off()
-    } else {
-      out <- file.path(output_dir, paste0(id, ".html"))
-      writeLines(paste(as.character(obj), collapse = "\n"), out, useBytes = TRUE)
-    }
-  }
-
-  manifest <- list(
-    built = as.character(Sys.time()),
-    package = pkg_name(),
-    artifacts = list.files(output_dir, full.names = FALSE)
+  replicateEverything::build_package_artifacts(
+    pkg_name(),
+    install_deps = install_deps,
+    ids = ids,
+    output_dir = artifact_output_dir(output_dir)
   )
-  jsonlite::write_json(
-    manifest,
-    file.path(dirname(output_dir), "manifest.json"),
-    pretty = TRUE,
-    auto_unbox = TRUE
-  )
-  invisible(manifest)
 }

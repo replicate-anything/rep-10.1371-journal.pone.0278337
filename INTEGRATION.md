@@ -4,12 +4,12 @@
 
 | Layer | Responsibility |
 |-------|----------------|
-| **Registry** (`registry/papers/<folder>/`) | **Stub only**: DOI metadata + `paper.package` link for the index |
+| **Registry** (`registry/studies/<folder>/`) | **Stub only**: DOI metadata + `paper.package` link for the index |
 | **Study package** (`rep_*`) | Code, data, `replication.yml` (full), `build_report()` artifacts |
 | **replicateEverything** | Merge package yaml; dispatch Run/Code/Display to the package |
 | **Shiny** | Same as replicateEverything (no registry `code/` or `artifacts/`) |
 
-## Registry stub (all you need in `registry/papers/<folder>/`)
+## Registry stub (all you need in `registry/studies/<folder>/`)
 
 ```yaml
 paper:
