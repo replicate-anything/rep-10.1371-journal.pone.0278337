@@ -20,6 +20,13 @@ paper:
     - modelsummary
     - kableExtra
 
+maintainer:
+  name: Macartan Humphreys
+  email: macartan.humphreys@wzb.eu
+
+collections:
+  - IPI
+
 # Registry index builder: set repo to this package's GitHub slug (not registry/studies/).
 repo: replicate-anything/rep-10.1371_journal.pone.0278337
 
