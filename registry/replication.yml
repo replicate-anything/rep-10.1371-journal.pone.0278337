@@ -15,4 +15,11 @@ paper:
   study_ref: main
   study_folder: rep-10.1371_journal.pone.0278337
 repo: replicate-anything/rep-10.1371_journal.pone.0278337
+maintainer:
+  name: Macartan Humphreys
+  email: macartan.humphreys@wzb.eu
+collections:
+- IPI
+languages:
+- r
 
