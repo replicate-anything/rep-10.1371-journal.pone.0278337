@@ -36,7 +36,8 @@ prep:
     code: prep_data
     data: combined.csv
     description: Rebuild analysis datasets from raw survey export (requires combined.csv).
-    artifact: inst/report/intermediate/wave4_conjoint.rds
+    outputs:
+      - inst/report/intermediate/wave4_conjoint.rds
 
   - id: prep_data_tab_2
     label: Reshape wave 2 conjoint tasks
@@ -55,7 +56,8 @@ replications:
     make: make_figure_1
     format: format_figure_1
     data: wave4_conjoint
-    artifact: inst/report/artifacts/fig_1.png
+    outputs:
+      - inst/report/artifacts/fig_1.png
 
   - id: fig_2
     type: figure
@@ -64,7 +66,8 @@ replications:
     make: make_figure_2
     format: format_figure_2
     data: wave4_conjoint
-    artifact: inst/report/artifacts/fig_2.png
+    outputs:
+      - inst/report/artifacts/fig_2.png
 
   - id: fig_3
     type: figure
@@ -73,7 +76,8 @@ replications:
     make: make_figure_3
     format: format_figure_3
     data: wave2_survey
-    artifact: inst/report/artifacts/fig_3.png
+    outputs:
+      - inst/report/artifacts/fig_3.png
 
   - id: fig_4
     type: figure
@@ -82,7 +86,8 @@ replications:
     make: make_figure_4
     format: format_figure_4
     data: wave4_conjoint
-    artifact: inst/report/artifacts/fig_4.png
+    outputs:
+      - inst/report/artifacts/fig_4.png
 
   - id: fig_5
     type: figure
@@ -91,7 +96,8 @@ replications:
     make: make_figure_5
     format: format_figure_5
     data: wave4_conjoint
-    artifact: inst/report/artifacts/fig_5.png
+    outputs:
+      - inst/report/artifacts/fig_5.png
 
   - id: fig_6
     type: figure
@@ -100,7 +106,8 @@ replications:
     make: make_figure_6
     format: format_figure_6
     data: wave4_conjoint
-    artifact: inst/report/artifacts/fig_6.png
+    outputs:
+      - inst/report/artifacts/fig_6.png
 
   - id: fig_7
     type: figure
@@ -109,7 +116,8 @@ replications:
     make: make_figure_7
     format: format_figure_7
     data: wave4_conjoint
-    artifact: inst/report/artifacts/fig_7.png
+    outputs:
+      - inst/report/artifacts/fig_7.png
 
   - id: fig_8
     type: figure
@@ -118,7 +126,8 @@ replications:
     make: make_figure_8
     format: format_figure_8
     data: wave4_conjoint
-    artifact: inst/report/artifacts/fig_8.png
+    outputs:
+      - inst/report/artifacts/fig_8.png
 
   - id: tab_2
     type: table
@@ -129,7 +138,8 @@ replications:
     data:
       - wave2_survey
       - vignette_labels
-    artifact: inst/report/artifacts/tab_2.html
+    outputs:
+      - inst/report/artifacts/tab_2.html
 
   - id: tab_1
     type: table
@@ -138,4 +148,5 @@ replications:
     make: make_table_1
     format: format_table_1
     data: wave4_conjoint
-    artifact: inst/report/artifacts/tab_1.html
+    outputs:
+      - inst/report/artifacts/tab_1.html
