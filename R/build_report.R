@@ -34,7 +34,7 @@ build_report <- function(output_dir = NULL, ids = NULL, install_deps = TRUE) {
       call. = FALSE
     )
   }
-  replicateEverything::build_package_artifacts(
+  replicateEverything::build_study_outputs(
     pkg_name(),
     install_deps = install_deps,
     ids = ids,
