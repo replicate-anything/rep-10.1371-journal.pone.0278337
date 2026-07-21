@@ -13,9 +13,9 @@ plot_marginal_effects(results, group_var = NULL, flip_axes = FALSE)
 - results:
 
   Output of
-  [`fit_marginal_effects()`](https://replicate-anything.github.io/rep-10.1371_journal.pone.0278337/reference/fit_marginal_effects.md)
+  [`fit_marginal_effects()`](https://replicate-anything.github.io/rep-10.1371-journal.pone.0278337/reference/fit_marginal_effects.md)
   or
-  [`fit_marginal_effects_by()`](https://replicate-anything.github.io/rep-10.1371_journal.pone.0278337/reference/fit_marginal_effects_by.md).
+  [`fit_marginal_effects_by()`](https://replicate-anything.github.io/rep-10.1371-journal.pone.0278337/reference/fit_marginal_effects_by.md).
 
 - group_var:
 

@@ -19,10 +19,10 @@ paper:
   year: 2022
   authors: ...
   package: rep1371journalpone0278337
-  package_folder: rep-10.1371_journal.pone.0278337   # monorepo sibling (optional)
-  package_repo: replicate-anything/rep-10.1371_journal.pone.0278337
+  package_folder: rep-10.1371-journal.pone.0278337   # monorepo sibling (optional)
+  package_repo: replicate-anything/rep-10.1371-journal.pone.0278337
   package_ref: main
-repo: replicate-anything/rep-10.1371_journal.pone.0278337
+repo: replicate-anything/rep-10.1371-journal.pone.0278337
 ```
 
 No `replications:`, `code/`, `data/`, or `artifacts/` in the registry.

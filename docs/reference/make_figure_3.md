@@ -15,7 +15,7 @@ make_fig_3(data = wave2_survey)
 - data:
 
   Wave 2 survey data. Defaults to
-  [wave2_survey](https://replicate-anything.github.io/rep-10.1371_journal.pone.0278337/reference/wave2_survey.md).
+  [wave2_survey](https://replicate-anything.github.io/rep-10.1371-journal.pone.0278337/reference/wave2_survey.md).
 
 ## Value
 

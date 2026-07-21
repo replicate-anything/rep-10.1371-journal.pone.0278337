@@ -1,4 +1,4 @@
-# rep-10.1371_journal.pone.0278337
+# rep-10.1371-journal.pone.0278337
 
 Self-contained R replication package for:
 
@@ -9,7 +9,7 @@ Source analysis repository: [wzb-ipi/vaccine_solidarity](https://github.com/wzb-
 ## Layout
 
 ```
-rep-10.1371_journal.pone.0278337/
+rep-10.1371-journal.pone.0278337/
   replication.yml          # edit here; copied to inst/ by sync script
   data/                    # wave4_conjoint, wave2_survey, vignette_labels (.rda)
   data-raw/                # CSV sources + build/sync scripts
@@ -45,7 +45,7 @@ Run this after changing any `make_*`, `prep_data*`, or `format_outputs.R`, and b
 
 ```r
 # from monorepo root
-devtools::install("rep-10.1371_journal.pone.0278337")
+devtools::install("rep-10.1371-journal.pone.0278337")
 
 library(rep1371journalpone0278337)
 list_replications()
@@ -87,7 +87,7 @@ prep_data("path/to/combined.csv")
 ## Tests
 
 ```r
-devtools::test("rep-10.1371_journal.pone.0278337")
+devtools::test("rep-10.1371-journal.pone.0278337")
 ```
 
 ## Registry integration

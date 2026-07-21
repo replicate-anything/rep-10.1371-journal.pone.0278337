@@ -1,4 +1,4 @@
-# rep-10.1371_journal.pone.0278337
+# rep-10.1371-journal.pone.0278337
 
 Self-contained R replication package for:
 
@@ -12,7 +12,7 @@ Source analysis repository:
 
 ## Layout
 
-    rep-10.1371_journal.pone.0278337/
+    rep-10.1371-journal.pone.0278337/
       replication.yml          # edit here; copied to inst/ by sync script
       data/                    # wave4_conjoint, wave2_survey, vignette_labels (.rda)
       data-raw/                # CSV sources + build/sync scripts
@@ -35,7 +35,7 @@ Source analysis repository:
 
 `R/` is the **only place to edit** analysis code. Files under
 `inst/replication_code/` are **generated copies** so
-[`get_code()`](https://replicate-anything.github.io/rep-10.1371_journal.pone.0278337/reference/get_code.md)
+[`get_code()`](https://replicate-anything.github.io/rep-10.1371-journal.pone.0278337/reference/get_code.md)
 can show source after `R CMD INSTALL` (installed packages do not ship
 `R/`). Regenerate with:
 
@@ -55,7 +55,7 @@ sync.
 ``` r
 
 # from monorepo root
-devtools::install("rep-10.1371_journal.pone.0278337")
+devtools::install("rep-10.1371-journal.pone.0278337")
 
 library(rep1371journalpone0278337)
 list_replications()
@@ -63,7 +63,7 @@ make_figure_1()
 make_table_1()
 ```
 
-[`build_report()`](https://replicate-anything.github.io/rep-10.1371_journal.pone.0278337/reference/build_report.md)
+[`build_report()`](https://replicate-anything.github.io/rep-10.1371-journal.pone.0278337/reference/build_report.md)
 is only for **package release / CI** — it writes precomputed PNG/HTML
 into `inst/report/artifacts/` so published installs serve fast Display.
 Shiny runs replications live when artifacts are absent, so you do not
@@ -82,7 +82,7 @@ quarto render vignettes/vaccine-solidarity-replication.qmd
 For a full HTML site including the vignette, run
 [`pkgdown::build_site()`](https://pkgdown.r-lib.org/reference/build_site.html).
 Tables and figures run live in the vignette (~10 seconds total). Run
-[`build_report()`](https://replicate-anything.github.io/rep-10.1371_journal.pone.0278337/reference/build_report.md)
+[`build_report()`](https://replicate-anything.github.io/rep-10.1371-journal.pone.0278337/reference/build_report.md)
 separately if you need precomputed Display artifacts for Shiny or
 pkgdown.
 
@@ -107,7 +107,7 @@ prep_data("path/to/combined.csv")
 
 ``` r
 
-devtools::test("rep-10.1371_journal.pone.0278337")
+devtools::test("rep-10.1371-journal.pone.0278337")
 ```
 
 ## Registry integration

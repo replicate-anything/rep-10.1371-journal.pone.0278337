@@ -5,7 +5,7 @@
 | Layer | Responsibility |
 |----|----|
 | **Registry** (`registry/studies/<folder>/`) | **Stub only**: DOI metadata + `paper.package` link for the index |
-| **Study package** (`rep_*`) | Code, data, `replication.yml` (full), [`build_report()`](https://replicate-anything.github.io/rep-10.1371_journal.pone.0278337/reference/build_report.md) artifacts |
+| **Study package** (`rep_*`) | Code, data, `replication.yml` (full), [`build_report()`](https://replicate-anything.github.io/rep-10.1371-journal.pone.0278337/reference/build_report.md) artifacts |
 | **replicateEverything** | Merge package yaml; dispatch Run/Code/Display to the package |
 | **Shiny** | Same as replicateEverything (no registry `code/` or `artifacts/`) |
 
@@ -19,10 +19,10 @@ paper:
   year: 2022
   authors: ...
   package: rep1371journalpone0278337
-  package_folder: rep-10.1371_journal.pone.0278337   # monorepo sibling (optional)
-  package_repo: replicate-anything/rep-10.1371_journal.pone.0278337
+  package_folder: rep-10.1371-journal.pone.0278337   # monorepo sibling (optional)
+  package_repo: replicate-anything/rep-10.1371-journal.pone.0278337
   package_ref: main
-repo: replicate-anything/rep-10.1371_journal.pone.0278337
+repo: replicate-anything/rep-10.1371-journal.pone.0278337
 ```
 
 No `replications:`, `code/`, `data/`, or `artifacts/` in the registry.
@@ -38,7 +38,7 @@ package).
 | Replication list | `replication.yml` → `inst/replication.yml` |
 | Analysis code | `R/make_*.R` → `inst/replication_code/` |
 | Data | `data/` (LazyData) |
-| Display artifacts | `inst/report/artifacts/` via [`build_report()`](https://replicate-anything.github.io/rep-10.1371_journal.pone.0278337/reference/build_report.md) |
+| Display artifacts | `inst/report/artifacts/` via [`build_report()`](https://replicate-anything.github.io/rep-10.1371-journal.pone.0278337/reference/build_report.md) |
 | Vignette / pkgdown | package vignettes |
 
 ## Shiny & replicateEverything behavior
@@ -52,14 +52,14 @@ package).
 
 Registry `scripts/build_artifacts.R` **skips** package-backed papers;
 run
-[`build_report()`](https://replicate-anything.github.io/rep-10.1371_journal.pone.0278337/reference/build_report.md)
+[`build_report()`](https://replicate-anything.github.io/rep-10.1371-journal.pone.0278337/reference/build_report.md)
 in the study package instead.
 
 ## Required package API
 
-- [`list_replications()`](https://replicate-anything.github.io/rep-10.1371_journal.pone.0278337/reference/list_replications.md),
-  [`replication_meta()`](https://replicate-anything.github.io/rep-10.1371_journal.pone.0278337/reference/replication_meta.md)
+- [`list_replications()`](https://replicate-anything.github.io/rep-10.1371-journal.pone.0278337/reference/list_replications.md),
+  [`replication_meta()`](https://replicate-anything.github.io/rep-10.1371-journal.pone.0278337/reference/replication_meta.md)
 - `run_replication(id)`
 - `load_artifact(id)`, `artifact_file(id)`
 - `get_code(id)`,
-  [`build_report()`](https://replicate-anything.github.io/rep-10.1371_journal.pone.0278337/reference/build_report.md)
+  [`build_report()`](https://replicate-anything.github.io/rep-10.1371-journal.pone.0278337/reference/build_report.md)

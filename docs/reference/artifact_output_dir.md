@@ -2,7 +2,7 @@
 
 Writes to `inst/report/artifacts/` when building from a package source
 tree so
-[`load_artifact()`](https://replicate-anything.github.io/rep-10.1371_journal.pone.0278337/reference/load_artifact.md)
+[`load_artifact()`](https://replicate-anything.github.io/rep-10.1371-journal.pone.0278337/reference/load_artifact.md)
 and pkgdown can find files during development.
 
 ## Usage

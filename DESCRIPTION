@@ -39,8 +39,8 @@ Suggests:
     pkgdown
 Config/Needs/website: pkgdown
 Config/testthat/edition: 3
-URL: https://github.com/replicate-anything/rep-10.1371_journal.pone.0278337, https://replicate-anything.github.io/rep-10.1371_journal.pone.0278337/
-BugReports: https://github.com/replicate-anything/rep-10.1371_journal.pone.0278337/issues
+URL: https://github.com/replicate-anything/rep-10.1371-journal.pone.0278337, https://replicate-anything.github.io/rep-10.1371-journal.pone.0278337/
+BugReports: https://github.com/replicate-anything/rep-10.1371-journal.pone.0278337/issues
 LazyData: true
 Roxygen: list(markdown = TRUE)
 Config/roxygen2/version: 8.0.0
