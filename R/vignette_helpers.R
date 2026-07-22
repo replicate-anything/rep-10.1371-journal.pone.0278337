@@ -10,8 +10,15 @@ NULL
 #' @return A `knitr::asis_output()` object.
 #' @keywords internal
 show_table_artifact <- function(id) {
-  html <- load_artifact(id)
-  if (is.null(html)) {
+  path <- NULL
+  for (ext in c("html", "rds")) {
+    path <- artifact_path(id, ext)
+    if (!is.null(path)) {
+      break
+    }
+  }
+  html <- if (!is.null(path)) read_artifact_at_path(path) else NULL
+  if (is.null(html) || !is.character(html)) {
     knitr::asis_output(paste0(
       "<p><em>No precomputed artifact for <code>", id, "</code>. ",
       "Run <code>build_report()</code> before rendering.</em></p>"

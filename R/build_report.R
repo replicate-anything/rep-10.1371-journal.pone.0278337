@@ -1,7 +1,7 @@
 #' Resolve the artifact output directory
 #'
 #' Writes to `inst/report/artifacts/` when building from a package source tree
-#' so [load_artifact()] and pkgdown can find files during development.
+#' so Shiny Display / pkgdown can find files during development.
 #'
 #' @param output_dir Optional override.
 #' @return Normalized directory path.

@@ -30,10 +30,17 @@ test_that("make_table_2 returns a displayable table", {
   expect_s3_class(tbl, "knitr_kable")
 })
 
-test_that("list_replications reads yaml entries", {
+test_that("replication.yml lists expected steps", {
   skip_if_not_installed("rep1371journalpone0278337")
-  reps <- rep1371journalpone0278337::list_replications()
-  ids <- vapply(reps, function(x) x$id, character(1))
+  yml <- system.file("replication.yml", package = "rep1371journalpone0278337")
+  skip_if_not(nzchar(yml) && file.exists(yml))
+  meta <- yaml::read_yaml(yml)
+  prep <- meta$prep
+  if (is.null(prep)) prep <- list()
+  reps <- meta$replications
+  if (is.null(reps)) reps <- list()
+  entries <- c(prep, reps)
+  ids <- vapply(entries, function(x) x$id, character(1))
   expect_true("fig_1" %in% ids)
   expect_true("tab_2" %in% ids)
   expect_true("prep_data" %in% ids)
@@ -48,9 +55,14 @@ test_that("make_figure_2 facet labels distinguish cash and doses", {
   expect_false(any(is.na(plot_df$outcome)))
 })
 
-test_that("run_replication produces figure 2", {
+test_that("replicateEverything runs fig_2 via package make_*/format_*", {
   skip_if_not_installed("rep1371journalpone0278337")
-  p <- rep1371journalpone0278337::run_replication("fig_2")
+  skip_if_not_installed("replicateEverything")
+  pkg_root <- getNamespaceInfo(asNamespace("rep1371journalpone0278337"), "path")
+  p <- replicateEverything:::run_package_replication(
+    "rep1371journalpone0278337",
+    "fig_2"
+  )
   expect_true(inherits(p, "ggplot"))
 })
 

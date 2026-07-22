@@ -4,12 +4,12 @@
 
 | Layer | Responsibility |
 |-------|----------------|
-| **Registry** (`registry/studies/<folder>/`) | **Stub only**: DOI metadata + `paper.package` link for the index |
-| **Study package** (`rep_*`) | Code, data, `replication.yml` (full), `build_report()` artifacts |
-| **replicateEverything** | Merge package yaml; dispatch Run/Code/Display to the package |
+| **Registry** (`registry/studies/<folder>.yml`) | **Stub only**: DOI metadata + `paper.package` link for the index |
+| **Study package** (`rep_*`) | Code, data, `replication.yml`, `make_*` / `format_*`, `build_report()` artifacts |
+| **replicateEverything** | Merge package yaml; drive Display / Code / Run via its own verbs |
 | **Shiny** | Same as replicateEverything (no registry `code/` or `artifacts/`) |
 
-## Registry stub (all you need in `registry/studies/<folder>/`)
+## Registry stub (all you need in `registry/studies/<folder>.yml`)
 
 ```yaml
 paper:
@@ -27,8 +27,8 @@ repo: replicate-anything/rep-10.1371-journal.pone.0278337
 
 No `replications:`, `code/`, `data/`, or `artifacts/` in the registry.
 
-`replicateEverything::enrich_package_replication_meta()` fills `replications`
-from the package `replication.yml` (GitHub or installed package).
+`replicateEverything` fills step lists from the package `replication.yml`
+(GitHub or installed package).
 
 ## What lives in the study package
 
@@ -40,18 +40,20 @@ from the package `replication.yml` (GitHub or installed package).
 | Display artifacts | `inst/report/artifacts/` via `build_report()` |
 | Vignette / pkgdown | package vignettes |
 
+Do **not** export `run_replication()`, `list_replications()`, `load_artifact()`,
+or `get_code()` from the study package. Those verbs live only in
+**replicateEverything**.
+
 ## Shiny & replicateEverything behavior
 
-- **Display** → `package::load_artifact(id)` (reads `inst/report/artifacts/`)
-- **Code** → `package::get_code(id)` or raw GitHub `inst/replication_code/`
-- **Run** → `package::run_replication(id)` (requires installed/loaded package)
+- **Display** → `replicateEverything::load_artifact(doi, id)` (reads `inst/report/artifacts/`)
+- **Code** → `replicateEverything::get_code(doi, id)` (from `inst/replication_code/` / repo)
+- **Run** → `replicateEverything::run_replication(doi, id)` (calls package `make_*` / `format_*`)
 
 Registry `scripts/build_artifacts.R` **skips** package-backed papers; run
 `build_report()` in the study package instead.
 
-## Required package API
+## Study package surface
 
-- `list_replications()`, `replication_meta()`
-- `run_replication(id)`
-- `load_artifact(id)`, `artifact_file(id)`
-- `get_code(id)`, `build_report()`
+- Exported `make_*` / `format_*` named in yaml (plus shared helpers / data)
+- Optional `build_report()` to bake Display artifacts

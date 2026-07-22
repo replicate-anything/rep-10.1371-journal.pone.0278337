@@ -20,8 +20,6 @@ rep-10.1371-journal.pone.0278337/
     make_figure_*.R        # figure builders
     make_table_*.R         # table builders
     format_outputs.R       # display formatters
-    replication_code.R     # get_code() for Shiny Code tab
-    replication_api.R      # list_replications(), run_replication(), load_artifact()
     build_report.R         # write inst/report/artifacts/*
   inst/
     replication.yml        # installed copy (do not edit by hand)
@@ -31,7 +29,7 @@ rep-10.1371-journal.pone.0278337/
 
 ### R/ vs inst/replication_code/
 
-`R/` is the **only place to edit** analysis code. Files under `inst/replication_code/` are **generated copies** so `get_code()` can show source after `R CMD INSTALL` (installed packages do not ship `R/`). Regenerate with:
+`R/` is the **only place to edit** analysis code. Files under `inst/replication_code/` are **generated copies** so `replicateEverything::get_code()` can show source after `R CMD INSTALL` (installed packages do not ship `R/`). Regenerate with:
 
 ```bash
 Rscript data-raw/sync_replication_code.R
@@ -48,9 +46,13 @@ Run this after changing any `make_*`, `prep_data*`, or `format_outputs.R`, and b
 devtools::install("rep-10.1371-journal.pone.0278337")
 
 library(rep1371journalpone0278337)
-list_replications()
 make_figure_1()
 make_table_1()
+
+# Display / Code / Run verbs live in replicateEverything:
+library(replicateEverything)
+run_replication("10.1371/journal.pone.0278337", "fig_1")
+get_code("10.1371/journal.pone.0278337", "fig_1")
 ```
 
 `build_report()` is only for **package release / CI** — it writes precomputed PNG/HTML into `inst/report/artifacts/` so published installs serve fast Display. Shiny runs replications live when artifacts are absent, so you do not need this to use the app locally.
